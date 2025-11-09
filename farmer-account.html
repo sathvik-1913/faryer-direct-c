@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details - Farmer Direct</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* All your CSS remains the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2d5a27;
+            --secondary: #4a7c59;
+            --accent: #ffa726;
+            --light: #f5f7fa;
+            --dark: #333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0 10px;
+        }
+
+        .nav-links li {
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .header h2 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Account Container */
+        .account-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .profile-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-save {
+            background-color: var(--success);
+        }
+
+        .btn-save:hover {
+            background-color: #45a049;
+        }
+
+        .btn-cancel {
+            background-color: var(--danger);
+        }
+
+        .btn-cancel:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Account Details */
+        .account-details {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-group {
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: var(--dark);
+            font-weight: 600;
+            padding: 8px 0;
+        }
+
+        .info-value.editable {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .info-value.editable:hover {
+            background: #e9ecef;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .edit-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .edit-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .edit-btn:hover {
+            color: var(--secondary);
+        }
+
+        /* Verification Status */
+        .verification-status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-verified {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-not-verified {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            margin-top: 30px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            display: none;
+        }
+
+        .status-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 10px 0;
+            }
+
+            .nav-links {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .nav-links li {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+
+            .account-container {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .edit-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-leaf"></i> Farmer<span>Direct</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="farmer-main-interface.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#" class="active"><i class="fas fa-user"></i> Account</a></li>
+                <li><a href="farmer-sales.html"><i class="fas fa-shopping-cart"></i> Sales</a></li>
+                <li><a href="farmer-products.html"><i class="fas fa-seedling"></i> My Products</a></li>
+                <li><a href="farmers-analytics-page.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                <li><a href="farmer-settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="login-page.html" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h2>Account Details</h2>
+                <div class="user-info">
+                    <div class="user-avatar" id="headerAvatar">JD</div>
+                    <div>
+                        <div id="headerName">Loading...</div>
+                        <div style="font-size: 12px; color: #666;">Premium Farmer</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div class="status-message" id="statusMessage"></div>
+
+            <div class="account-container">
+                <!-- Profile Card -->
+                <div class="profile-card">
+                    <div class="profile-image" id="profileImage">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-name" id="profileName">Loading...</div>
+                    <div class="profile-role" id="profileRole">Premium Farmer</div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalProducts">0</div>
+                            <div class="stat-label">Products</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalSales">0</div>
+                            <div class="stat-label">Sales</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="successRate">0%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="memberSince">2024</div>
+                            <div class="stat-label">Member Since</div>
+                        </div>
+                    </div>
+
+                    <button class="btn" id="editProfileBtn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="btn btn-outline" id="changePasswordBtn">
+                        <i class="fas fa-lock"></i> Change Password
+                    </button>
+                </div>
+
+                <!-- Account Details -->
+                <div class="account-details">
+                    <h3 class="section-title">
+                        <i class="fas fa-info-circle"></i> Personal Information
+                    </h3>
+
+                    <div class="info-grid">
+                        <div class="info-group">
+                            <div class="info-label">Full Name</div>
+                            <div class="info-value editable" id="fullNameField" data-field="name">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Phone Number</div>
+                            <div class="info-value editable" id="phoneNumberField" data-field="phone">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Email Address</div>
+                            <div class="info-value editable" id="emailField" data-field="email">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Farm Name</div>
+                            <div class="info-value editable" id="farmNameField" data-field="farmName">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Location</div>
+                            <div class="info-value editable" id="locationField" data-field="location">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Farm Size</div>
+                            <div class="info-value editable" id="farmSizeField" data-field="farmSize">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Address</div>
+                            <div class="info-value editable" id="addressField" data-field="address">Loading...</div>
+                        </div>
+                        <div class="info-group">
+                            <div class="info-label">Specialization</div>
+                            <div class="info-value editable" id="specializationField" data-field="specialization">
+                                Loading...</div>
+                        </div>
+                    </div>
+
+                    <!-- Verification Status -->
+                    <div class="verification-status">
+                        <h4 style="margin-bottom: 20px; color: var(--primary);">
+                            <i class="fas fa-shield-alt"></i> Verification Status
+                        </h4>
+                        <div class="status-item">
+                            <div class="status-label">
+                                <i class="fas fa-mobile-alt"></i>
+                                Phone Verification
+                            </div>
+                            <span class="status-badge status-verified" id="phoneVerification">Verified</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">
+                                <i class="fas fa-id-card"></i>
+                                Identity Verification
+                            </div>
+                            <span class="status-badge status-pending" id="identityVerification">Pending</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-label">
+                                <i class="fas fa-tractor"></i>
+                                Farm Verification
+                            </div>
+                            <span class="status-badge status-not-verified" id="farmVerification">Not Verified</span>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="activity-list">
+                        <h3 class="section-title">
+                            <i class="fas fa-history"></i> Recent Activity
+                        </h3>
+                        <div id="activityList">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                Loading activity...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // LocalStorage keys
+        const STORAGE_KEYS = {
+            CURRENT_USER: 'currentUser',
+            PRODUCTS: 'farmDirectProducts',
+            SALES: 'farmDirectSales',
+            ACTIVITY: 'farmDirectActivity',
+            SIGNUP_DATA: 'signupData'
+        };
+
+        // Show status message
+        function showStatus(message, isSuccess) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${isSuccess ? 'status-success' : 'status-error'}`;
+            statusElement.style.display = 'block';
+
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Get current user from localStorage
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+            if (currentUser) {
+                return JSON.parse(currentUser);
+            }
+            return null;
+        }
+
+        // Save current user to localStorage
+        function saveCurrentUser(userData) {
+            localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(userData));
+        }
+
+        // Get signup data from localStorage
+        function getSignupData() {
+            const signupData = localStorage.getItem(STORAGE_KEYS.SIGNUP_DATA);
+            if (signupData) {
+                return JSON.parse(signupData);
+            }
+            return null;
+        }
+
+        // Get products from localStorage
+        function getProducts() {
+            const products = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+            if (products) {
+                return JSON.parse(products);
+            }
+            return [];
+        }
+
+        // Get sales from localStorage
+        function getSales() {
+            const sales = localStorage.getItem(STORAGE_KEYS.SALES);
+            if (sales) {
+                return JSON.parse(sales);
+            }
+            return [];
+        }
+
+        // Get activity from localStorage
+        function getActivity() {
+            const activity = localStorage.getItem(STORAGE_KEYS.ACTIVITY);
+            if (activity) {
+                return JSON.parse(activity);
+            }
+            return [];
+        }
+
+        // Save activity to localStorage
+        function saveActivity(activity) {
+            localStorage.setItem(STORAGE_KEYS.ACTIVITY, JSON.stringify(activity));
+        }
+
+        // Initialize sample data if not exists
+        function initializeSampleData() {
+            const currentUser = getCurrentUser();
+            const signupData = getSignupData();
+
+            // If no current user exists, check for signup data
+            if (!currentUser && signupData) {
+                // Create user from signup data
+                const newUser = {
+                    id: Date.now().toString(),
+                    name: signupData.name || 'New Farmer',
+                    email: signupData.email || 'new@example.com',
+                    phone: signupData.phone || 'Not provided',
+                    farmName: signupData.farmName || 'Not set',
+                    location: signupData.location || 'Not set',
+                    farmSize: signupData.farmSize || 'Not set',
+                    address: signupData.address || 'Not set',
+                    specialization: signupData.specialization || 'Not set',
+                    type: 'farmer',
+                    joinDate: new Date().toISOString(),
+                    rating: 4.7,
+                    lastUpdated: new Date().toISOString()
+                };
+                saveCurrentUser(newUser);
+                // Clear signup data after using it
+                localStorage.removeItem(STORAGE_KEYS.SIGNUP_DATA);
+            } else if (!currentUser) {
+                // Create sample user if none exists
+                const sampleUser = {
+                    id: '1',
+                    name: 'John Farmer',
+                    email: localStorage.getItem('userEmail') || 'john@example.com',
+                    phone: '9876543210',
+                    farmName: 'Green Valley Farm',
+                    location: 'California, USA',
+                    farmSize: '50 acres',
+                    address: '123 Farm Road, Green Valley, CA 90210',
+                    specialization: 'Organic Vegetables',
+                    type: 'farmer',
+                    joinDate: new Date().toISOString(),
+                    rating: 4.7,
+                    lastUpdated: new Date().toISOString()
+                };
+                saveCurrentUser(sampleUser);
+            }
+
+            // Initialize sample activity if none exists
+            if (!localStorage.getItem(STORAGE_KEYS.ACTIVITY)) {
+                const sampleActivity = [
+                    {
+                        id: '1',
+                        userId: '1',
+                        type: 'profile_update',
+                        title: 'Profile updated successfully',
+                        description: 'Updated personal information',
+                        timestamp: new Date().toISOString()
+                    },
+                    {
+                        id: '2',
+                        userId: '1',
+                        type: 'product_added',
+                        title: 'Added new product: Organic Tomatoes',
+                        description: 'Listed Organic Tomatoes for sale',
+                        timestamp: new Date(Date.now() - 86400000).toISOString()
+                    },
+                    {
+                        id: '3',
+                        userId: '1',
+                        type: 'sale_completed',
+                        title: 'Completed sale: 50kg Organic Tomatoes',
+                        description: 'Successfully sold 50kg of Organic Tomatoes',
+                        timestamp: new Date(Date.now() - 172800000).toISOString()
+                    },
+                    {
+                        id: '4',
+                        userId: '1',
+                        type: 'rating_received',
+                        title: 'Received 5-star rating from buyer',
+                        description: 'Buyer Rajesh Kumar gave 5-star rating',
+                        timestamp: new Date(Date.now() - 259200000).toISOString()
+                    },
+                    {
+                        id: '5',
+                        userId: '1',
+                        type: 'verification',
+                        title: 'Phone verification completed',
+                        description: 'Mobile number verified successfully',
+                        timestamp: new Date(Date.now() - 345600000).toISOString()
+                    }
+                ];
+                saveActivity(sampleActivity);
+            }
+        }
+
+        // Get farmer statistics
+        function getFarmerStats() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) return null;
+
+            const products = getProducts();
+            const sales = getSales();
+
+            const farmerProducts = products.filter(product => product.farmerId === currentUser.id);
+            const farmerSales = sales.filter(sale => sale.farmerId === currentUser.id);
+            const completedSales = farmerSales.filter(sale => sale.status === 'completed');
+
+            return {
+                totalProducts: farmerProducts.length,
+                totalSales: farmerSales.length,
+                successRate: farmerSales.length > 0 ?
+                    Math.round((completedSales.length / farmerSales.length) * 100) : 0
+            };
+        }
+
+        // Generate activity data
+        function generateActivityData() {
+            const activities = getActivity();
+            const currentUser = getCurrentUser();
+
+            // Filter activities for current user and sort by timestamp
+            const userActivities = activities
+                .filter(activity => activity.userId === currentUser.id)
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5); // Get last 5 activities
+
+            return userActivities.map(activity => {
+                let icon = 'fas fa-info-circle';
+                switch (activity.type) {
+                    case 'profile_update':
+                        icon = 'fas fa-user-check';
+                        break;
+                    case 'product_added':
+                        icon = 'fas fa-seedling';
+                        break;
+                    case 'sale_completed':
+                        icon = 'fas fa-shopping-cart';
+                        break;
+                    case 'rating_received':
+                        icon = 'fas fa-star';
+                        break;
+                    case 'verification':
+                        icon = 'fas fa-shield-alt';
+                        break;
+                }
+
+                return {
+                    icon: icon,
+                    title: activity.title,
+                    time: formatTimeAgo(new Date(activity.timestamp))
+                };
+            });
+        }
+
+        // Format time ago
+        function formatTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+            if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Enable editing for a field
+        function enableEditing(fieldElement) {
+            // Get the current value from the field
+            const currentValue = fieldElement.textContent.trim();
+            const fieldName = fieldElement.getAttribute('data-field');
+
+            console.log('Editing field:', fieldName, 'Current value:', currentValue);
+
+            // Replace the field content with an input and buttons
+            fieldElement.innerHTML = `
+                <input type="text" class="edit-input" value="${currentValue}" id="edit-${fieldName}" placeholder="Enter ${fieldName}">
+                <div class="edit-buttons">
+                    <button class="btn btn-save" onclick="saveField('${fieldName}')">
+                        <i class="fas fa-check"></i> Save
+                    </button>
+                    <button class="btn btn-cancel" onclick="cancelEdit('${fieldName}')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            `;
+
+            // Focus on the input field
+            const inputElement = document.getElementById(`edit-${fieldName}`);
+            if (inputElement) {
+                inputElement.focus();
+                inputElement.select();
+            }
+        }
+
+        // Save field value to localStorage
+        function saveField(fieldName) {
+            const inputElement = document.getElementById(`edit-${fieldName}`);
+            if (!inputElement) {
+                console.error('Input element not found for field:', fieldName);
+                return;
+            }
+
+            const newValue = inputElement.value.trim();
+            console.log('Saving field:', fieldName, 'New value:', newValue);
+
+            if (!newValue) {
+                showStatus('Please enter a value', false);
+                return;
+            }
+
+            try {
+                // Get current user
+                const currentUser = getCurrentUser();
+                if (!currentUser) {
+                    showStatus('User not found', false);
+                    return;
+                }
+
+                // Update user data
+                currentUser[fieldName] = newValue;
+                currentUser.lastUpdated = new Date().toISOString();
+
+                // Save to localStorage
+                saveCurrentUser(currentUser);
+
+                // Add activity log
+                const activities = getActivity();
+                const newActivity = {
+                    id: Date.now().toString(),
+                    userId: currentUser.id,
+                    type: 'profile_update',
+                    title: `Updated ${fieldName.replace(/([A-Z])/g, ' $1').toLowerCase()}`,
+                    description: `Changed ${fieldName} to ${newValue}`,
+                    timestamp: new Date().toISOString()
+                };
+                activities.push(newActivity);
+                saveActivity(activities);
+
+                // Update the UI
+                updateUserInfo();
+
+                // Show success message
+                showStatus('Profile updated successfully!', true);
+
+            } catch (error) {
+                console.error('Error saving field:', error);
+                showStatus('Error updating profile. Please try again.', false);
+            }
+        }
+
+        // Cancel editing
+        function cancelEdit(fieldName) {
+            console.log('Canceling edit for field:', fieldName);
+            // Simply reload the profile data to revert changes
+            updateUserInfo();
+        }
+
+        // Update profile information
+        function updateUserInfo() {
+            const currentUser = getCurrentUser();
+            const stats = getFarmerStats();
+
+            if (!currentUser) {
+                showStatus('Failed to load profile data', false);
+                return;
+            }
+
+            console.log('Updating user info with:', currentUser);
+
+            // Update header
+            document.getElementById('headerName').textContent = currentUser.name;
+            document.getElementById('headerAvatar').textContent =
+                currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase();
+
+            // Update profile card
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileImage').innerHTML = `<i class="fas fa-user"></i>`;
+
+            if (stats) {
+                document.getElementById('totalProducts').textContent = stats.totalProducts;
+                document.getElementById('totalSales').textContent = stats.totalSales;
+                document.getElementById('successRate').textContent = `${stats.successRate}%`;
+            }
+
+            // Calculate member since year
+            const memberSince = currentUser.joinDate ? new Date(currentUser.joinDate).getFullYear() : 2024;
+            document.getElementById('memberSince').textContent = memberSince;
+
+            // Update personal information fields with proper fallbacks
+            const fields = {
+                'name': currentUser.name || 'Not set',
+                'phone': currentUser.phone || 'Not provided',
+                'email': currentUser.email || 'Not provided',
+                'farmName': currentUser.farmName || 'Not set',
+                'location': currentUser.location || 'Not set',
+                'farmSize': currentUser.farmSize || 'Not set',
+                'address': currentUser.address || 'Not set',
+                'specialization': currentUser.specialization || 'Not set'
+            };
+
+            // Update each field
+            Object.keys(fields).forEach(fieldName => {
+                const fieldElement = document.querySelector(`[data-field="${fieldName}"]`);
+                if (fieldElement) {
+                    fieldElement.textContent = fields[fieldName];
+
+                    // Clear any existing content and re-add the editable field
+                    fieldElement.innerHTML = fields[fieldName];
+
+                    // Add click event listener for editing
+                    fieldElement.addEventListener('click', function () {
+                        enableEditing(this);
+                    });
+                }
+            });
+
+            // Update activity list
+            const activities = generateActivityData();
+            const activityList = document.getElementById('activityList');
+
+            if (activities.length > 0) {
+                activityList.innerHTML = activities.map(activity => `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="${activity.icon}"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-time">${activity.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                activityList.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        <i class="fas fa-history" style="font-size: 40px; margin-bottom: 10px; display: block; color: #ddd;"></i>
+                        No recent activity
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize event listeners for editable fields
+        function initializeEditableFields() {
+            const editableFields = document.querySelectorAll('.info-value.editable');
+            editableFields.forEach(field => {
+                field.addEventListener('click', function () {
+                    enableEditing(this);
+                });
+            });
+        }
+
+        // Button event listeners
+        document.getElementById('editProfileBtn').addEventListener('click', function () {
+            // Enable editing for all fields
+            const editableFields = document.querySelectorAll('.info-value.editable');
+            editableFields.forEach(field => {
+                enableEditing(field);
+            });
+        });
+
+        document.getElementById('changePasswordBtn').addEventListener('click', function () {
+            alert('Redirecting to password change...');
+            // In real implementation, redirect to password change page
+        });
+
+        // Logout functionality
+        document.getElementById('logoutLink').addEventListener('click', function (e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+                sessionStorage.clear();
+                window.location.href = 'login-page.html';
+            }
+        });
+
+        // Navigation active state
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    if (this.getAttribute('href') !== 'login-page.html') {
+                        navLinks.forEach(item => item.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Initialize sample data and load profile data
+            initializeSampleData();
+            updateUserInfo();
+            initializeEditableFields();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Farmer Direct</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2d5a27;
+            --primary-light: #4a7c59;
+            --accent: #ffa726;
+            --light: #f5f7fa;
+            --dark: #333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .user-profile {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: rgba(45, 90, 39, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Account Content */
+        .account-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Status Message */
+        .status-message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .status-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Form Styles */
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .form-title {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+
+        .form-input:read-only {
+            background-color: #f8f9fa;
+            cursor: not-allowed;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-edit {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .btn-edit:hover {
+            background-color: rgba(45, 90, 39, 0.1);
+        }
+
+        /* Account Stats */
+        .account-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Verification Status */
+        .verification-status {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-verified {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-not-verified {
+            background: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <h1>Farmer<span>Direct</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="buyer-interface.html">Home</a></li>
+                <li><a href="#" class="active">My Account</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+            <div class="user-actions">
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="user-profile">
+                <div class="profile-image" id="profileImage">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h2 class="profile-name" id="profileName">Loading...</h2>
+                <p class="profile-email" id="profileEmail">Loading...</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-user-circle"></i> Personal Information</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
+                <li><a href="#"><i class="fas fa-lock"></i> Security</a></li>
+                <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> Wishlist</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Account Content -->
+        <div class="account-content">
+            <!-- Status Message -->
+            <div class="status-message" id="statusMessage"></div>
+
+            <h2 class="section-title">
+                <i class="fas fa-user-circle"></i> Personal Information
+            </h2>
+
+            <!-- Personal Information Form -->
+            <form id="personalInfoForm">
+                <div class="form-section">
+                    <h3 class="form-title">
+                        <i class="fas fa-user"></i> Basic Information
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address</label>
+                            <input type="email" id="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="dateOfBirth">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="gender">Gender</label>
+                            <select id="gender" class="form-input">
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="form-title">
+                        <i class="fas fa-map-marker-alt"></i> Address Information
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="addressLine1">Address Line 1</label>
+                            <input type="text" id="addressLine1" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="addressLine2">Address Line 2</label>
+                            <input type="text" id="addressLine2" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="city">City</label>
+                            <input type="text" id="city" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="state">State</label>
+                            <input type="text" id="state" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="pincode">PIN Code</label>
+                            <input type="text" id="pincode" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="country">Country</label>
+                            <input type="text" id="country" class="form-input" value="India" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="form-title">
+                        <i class="fas fa-tractor"></i> Farmer Preferences (Optional)
+                    </h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="preferredFarmers">Preferred Farmers</label>
+                            <input type="text" id="preferredFarmers" class="form-input"
+                                placeholder="Comma separated farmer names">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="productPreferences">Product Preferences</label>
+                            <select id="productPreferences" class="form-input" multiple>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="grains">Grains</option>
+                                <option value="dairy">Dairy Products</option>
+                                <option value="organic">Organic Products</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="deliveryPreferences">Delivery Preferences</label>
+                            <select id="deliveryPreferences" class="form-input">
+                                <option value="">Select Preference</option>
+                                <option value="morning">Morning (8 AM - 12 PM)</option>
+                                <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                                <option value="evening">Evening (4 PM - 8 PM)</option>
+                                <option value="anytime">Anytime</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="newsletter">Newsletter Subscription</label>
+                            <div style="margin-top: 8px;">
+                                <input type="checkbox" id="newsletter" style="margin-right: 8px;">
+                                <label for="newsletter">Subscribe to our newsletter</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveBtn">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+
+            <!-- Account Statistics -->
+            <div class="account-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalOrders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="memberSince">2023</div>
+                    <div class="stat-label">Member Since</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="successRate">100%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="reviewsCount">0</div>
+                    <div class="stat-label">Reviews</div>
+                </div>
+            </div>
+
+            <!-- Verification Status -->
+            <div class="verification-status">
+                <h3 class="form-title">
+                    <i class="fas fa-shield-alt"></i> Account Verification
+                </h3>
+                <div class="status-item">
+                    <div class="status-label">
+                        <i class="fas fa-envelope"></i>
+                        Email Verification
+                    </div>
+                    <span class="status-badge status-verified" id="emailVerification">Verified</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">
+                        <i class="fas fa-mobile-alt"></i>
+                        Phone Verification
+                    </div>
+                    <span class="status-badge status-pending" id="phoneVerification">Pending</span>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">
+                        <i class="fas fa-id-card"></i>
+                        Identity Verification
+                    </div>
+                    <span class="status-badge status-not-verified" id="identityVerification">Not Verified</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Farmer Direct</h3>
+                <p>Connecting farmers directly with consumers for fresh, organic produce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="buyer-interface.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Farmers</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Farm Road, Green Valley</li>
+                    <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                    <li><i class="fas fa-envelope"></i> info@farmerdirect.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Farmer Direct. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // LocalStorage keys
+        const STORAGE_KEYS = {
+            CURRENT_USER: 'currentUser',
+            ORDERS: 'farmDirectOrders',
+            REVIEWS: 'farmDirectReviews'
+        };
+
+        // Show status message
+        function showStatus(message, isSuccess) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${isSuccess ? 'status-success' : 'status-error'}`;
+            statusElement.style.display = 'block';
+
+            setTimeout(() => {
+                statusElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Get current user from localStorage
+        function getCurrentUser() {
+            const currentUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+            if (currentUser) {
+                return JSON.parse(currentUser);
+            }
+            return null;
+        }
+
+        // Save current user to localStorage
+        function saveCurrentUser(userData) {
+            localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(userData));
+        }
+
+        // Get orders from localStorage
+        function getOrders() {
+            const orders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+            if (orders) {
+                return JSON.parse(orders);
+            }
+            return [];
+        }
+
+        // Get reviews from localStorage
+        function getReviews() {
+            const reviews = localStorage.getItem(STORAGE_KEYS.REVIEWS);
+            if (reviews) {
+                return JSON.parse(reviews);
+            }
+            return [];
+        }
+
+        // Initialize sample user data if not exists
+        function initializeSampleData() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                // Create sample user if none exists
+                const sampleUser = {
+                    id: 'user-001',
+                    firstName: 'Rajesh',
+                    lastName: 'Kumar',
+                    email: 'rajesh.kumar@example.com',
+                    phone: '9876543210',
+                    dateOfBirth: '1990-05-15',
+                    gender: 'male',
+                    addressLine1: '123 Main Street',
+                    addressLine2: 'Green Park',
+                    city: 'Mumbai',
+                    state: 'Maharashtra',
+                    pincode: '400001',
+                    country: 'India',
+                    preferredFarmers: 'Green Valley Farm, Sunshine Farms',
+                    productPreferences: ['vegetables', 'fruits'],
+                    deliveryPreferences: 'evening',
+                    newsletter: true,
+                    joinDate: new Date().toISOString(),
+                    emailVerified: true,
+                    phoneVerified: false,
+                    identityVerified: false,
+                    lastUpdated: new Date().toISOString()
+                };
+                saveCurrentUser(sampleUser);
+            }
+        }
+
+        // Load user data into form
+        function loadUserData() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                showStatus('Failed to load user data', false);
+                return;
+            }
+
+            // Update profile section
+            document.getElementById('profileName').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileImage').innerHTML = `<i class="fas fa-user"></i>`;
+
+            // Update form fields
+            document.getElementById('firstName').value = currentUser.firstName || '';
+            document.getElementById('lastName').value = currentUser.lastName || '';
+            document.getElementById('email').value = currentUser.email || '';
+            document.getElementById('phone').value = currentUser.phone || '';
+            document.getElementById('dateOfBirth').value = currentUser.dateOfBirth || '';
+            document.getElementById('gender').value = currentUser.gender || '';
+            document.getElementById('addressLine1').value = currentUser.addressLine1 || '';
+            document.getElementById('addressLine2').value = currentUser.addressLine2 || '';
+            document.getElementById('city').value = currentUser.city || '';
+            document.getElementById('state').value = currentUser.state || '';
+            document.getElementById('pincode').value = currentUser.pincode || '';
+            document.getElementById('country').value = currentUser.country || 'India';
+            document.getElementById('preferredFarmers').value = currentUser.preferredFarmers || '';
+
+            // Set product preferences
+            const productPreferences = document.getElementById('productPreferences');
+            if (currentUser.productPreferences && Array.isArray(currentUser.productPreferences)) {
+                Array.from(productPreferences.options).forEach(option => {
+                    option.selected = currentUser.productPreferences.includes(option.value);
+                });
+            }
+
+            document.getElementById('deliveryPreferences').value = currentUser.deliveryPreferences || '';
+            document.getElementById('newsletter').checked = currentUser.newsletter || false;
+
+            // Update verification status
+            document.getElementById('emailVerification').textContent = currentUser.emailVerified ? 'Verified' : 'Not Verified';
+            document.getElementById('emailVerification').className = `status-badge ${currentUser.emailVerified ? 'status-verified' : 'status-not-verified'}`;
+
+            document.getElementById('phoneVerification').textContent = currentUser.phoneVerified ? 'Verified' : 'Pending';
+            document.getElementById('phoneVerification').className = `status-badge ${currentUser.phoneVerified ? 'status-verified' : 'status-pending'}`;
+
+            document.getElementById('identityVerification').textContent = currentUser.identityVerified ? 'Verified' : 'Not Verified';
+            document.getElementById('identityVerification').className = `status-badge ${currentUser.identityVerified ? 'status-verified' : 'status-not-verified'}`;
+
+            // Update account statistics
+            updateAccountStats();
+        }
+
+        // Update account statistics
+        function updateAccountStats() {
+            const orders = getOrders();
+            const reviews = getReviews();
+            const currentUser = getCurrentUser();
+
+            // Filter orders for current user
+            const userOrders = orders.filter(order =>
+                order.customer && order.customer.name === `${currentUser.firstName} ${currentUser.lastName}`
+            );
+
+            // Filter reviews for current user
+            const userReviews = reviews.filter(review =>
+                review.reviewerName === `${currentUser.firstName} ${currentUser.lastName}`
+            );
+
+            // Calculate success rate (orders delivered)
+            const deliveredOrders = userOrders.filter(order => order.status === 'delivered').length;
+            const successRate = userOrders.length > 0 ? Math.round((deliveredOrders / userOrders.length) * 100) : 100;
+
+            // Update stats
+            document.getElementById('totalOrders').textContent = userOrders.length;
+            document.getElementById('memberSince').textContent = currentUser.joinDate ? new Date(currentUser.joinDate).getFullYear() : '2023';
+            document.getElementById('successRate').textContent = `${successRate}%`;
+            document.getElementById('reviewsCount').textContent = userReviews.length;
+        }
+
+        // Save user data from form
+        function saveUserData() {
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                showStatus('Failed to save user data', false);
+                return;
+            }
+
+            try {
+                // Get product preferences
+                const productPreferences = Array.from(document.getElementById('productPreferences').selectedOptions)
+                    .map(option => option.value);
+
+                // Update user data
+                const updatedUser = {
+                    ...currentUser,
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    dateOfBirth: document.getElementById('dateOfBirth').value,
+                    gender: document.getElementById('gender').value,
+                    addressLine1: document.getElementById('addressLine1').value,
+                    addressLine2: document.getElementById('addressLine2').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    pincode: document.getElementById('pincode').value,
+                    country: document.getElementById('country').value,
+                    preferredFarmers: document.getElementById('preferredFarmers').value,
+                    productPreferences: productPreferences,
+                    deliveryPreferences: document.getElementById('deliveryPreferences').value,
+                    newsletter: document.getElementById('newsletter').checked,
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Save to localStorage
+                saveCurrentUser(updatedUser);
+
+                // Update profile section
+                document.getElementById('profileName').textContent = `${updatedUser.firstName} ${updatedUser.lastName}`;
+                document.getElementById('profileEmail').textContent = updatedUser.email;
+
+                // Show success message
+                showStatus('Profile updated successfully!', true);
+
+                // Update account statistics
+                updateAccountStats();
+
+            } catch (error) {
+                console.error('Error saving user data:', error);
+                showStatus('Error updating profile. Please try again.', false);
+            }
+        }
+
+        // Reset form to original values
+        function resetForm() {
+            loadUserData();
+            showStatus('Changes discarded', false);
+        }
+
+        // Initialize the page
+        function initializePage() {
+            // Initialize sample data if needed
+            initializeSampleData();
+
+            // Load user data
+            loadUserData();
+
+            // Set up form submission
+            document.getElementById('personalInfoForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                saveUserData();
+            });
+
+            // Set up cancel button
+            document.getElementById('cancelBtn').addEventListener('click', resetForm);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+
+</html>

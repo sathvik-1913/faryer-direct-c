@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Direct Market - Select Role</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            color: #2d5a27;
+        }
+
+        .market-concept {
+            margin-bottom: 40px;
+        }
+
+        .market-concept h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #2d5a27;
+        }
+
+        .connection {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 300px;
+            margin: 30px auto;
+        }
+
+        .farmer,
+        .buyer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+
+        .farmer .icon {
+            background-color: #ffa726;
+        }
+
+        .buyer .icon {
+            background-color: #42a5f5;
+        }
+
+        .connection-line {
+            flex: 1;
+            height: 3px;
+            background-color: #ddd;
+            margin: 0 10px;
+        }
+
+        .role-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .role-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .buyer-btn {
+            background-color: #42a5f5;
+            color: white;
+        }
+
+        .buyer-btn:hover {
+            background-color: #1e88e5;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(66, 165, 245, 0.3);
+        }
+
+        .seller-btn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .seller-btn:hover {
+            background-color: #388e3c;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-icon {
+            font-size: 24px;
+        }
+
+        .description {
+            margin-top: 30px;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .market-concept h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">FARMERS DIRECT</div>
+        <div class="market-concept">
+            <h1>DIRECT MARKET<br>ACCESS FOR<br>FARMERS</h1>
+            <div class="connection">
+                <div class="farmer">
+                    <div class="icon">🌱</div>
+                    <span>Farmer</span>
+                </div>
+                <div class="connection-line"></div>
+                <div class="buyer">
+                    <div class="icon">🛒</div>
+                    <span>Buyer</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="role-selection">
+            <button class="role-btn buyer-btn" id="buyerBtn">
+                <i class="fas fa-shopping-cart btn-icon"></i>
+                Continue as Buyer
+            </button>
+
+            <button class="role-btn seller-btn" id="sellerBtn">
+                <i class="fas fa-seedling btn-icon"></i>
+                Continue as Seller/Farmer
+            </button>
+        </div>
+
+        <div class="description">
+            <p>Connect directly with farmers or buyers. Eliminate intermediaries and get fair prices for your products.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('buyerBtn').addEventListener('click', function () {
+            // Redirect to buyer interface
+            window.location.href = 'buyer-login.html';
+        });
+
+        document.getElementById('sellerBtn').addEventListener('click', function () {
+            // Redirect to farmer main interface
+            window.location.href = 'login-page.html';
+        });
+    </script>
+</body>
+
+</html>

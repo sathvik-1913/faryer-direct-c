@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Farmer Direct</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2d5a27;
+            --primary-light: #4a7c59;
+            --accent: #ffa726;
+            --light: #f5f7fa;
+            --dark: #333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-details {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .product-farmer {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .total-amount {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin-top: 30px;
+        }
+
+        .payment-option {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .payment-header {
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .payment-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .payment-option.active .payment-content {
+            padding: 15px;
+            max-height: 500px;
+        }
+
+        .payment-option.active .payment-header {
+            background: rgba(45, 90, 39, 0.1);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .payment-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .upi-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .upi-option {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upi-option:hover {
+            border-color: var(--primary);
+        }
+
+        .upi-option.active {
+            border-color: var(--primary);
+            background: rgba(45, 90, 39, 0.05);
+        }
+
+        .card-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .card-inputs .form-group:last-child {
+            grid-column: 1 / -1;
+        }
+
+        .cod-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .cod-info p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .modal-message {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .order-id {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .upi-options {
+                grid-template-columns: 1fr;
+            }
+
+            .card-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <h1>Farmer<span>Direct</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="buyer-interface.html">Home</a></li>
+                <li><a href="#">My Account</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2 class="section-title">
+                <i class="fas fa-shopping-bag"></i> Order Summary
+            </h2>
+
+            <div class="product-details">
+                <img id="productImage" src="" alt="Product Image" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name" id="productName">Product Name</h3>
+                    <div class="product-price" id="productPrice">₹0</div>
+                    <div class="product-farmer" id="productFarmer">Farmer: Loading...</div>
+                </div>
+            </div>
+
+            <div class="order-total">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0</span>
+                </div>
+                <div class="total-row">
+                    <span>Shipping:</span>
+                    <span>₹40</span>
+                </div>
+                <div class="total-row">
+                    <span>Tax:</span>
+                    <span id="tax">₹0</span>
+                </div>
+                <div class="total-row total-amount">
+                    <span>Total:</span>
+                    <span id="totalAmount">₹0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <div class="checkout-form">
+            <h2 class="section-title">
+                <i class="fas fa-truck"></i> Delivery Details
+            </h2>
+
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label class="form-label" for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="mobileNumber">Mobile Number</label>
+                    <input type="tel" id="mobileNumber" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="address">Street Address</label>
+                    <input type="text" id="address" class="form-input" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="city">City/Village</label>
+                        <input type="text" id="city" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="state">State</label>
+                        <input type="text" id="state" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="pincode">PIN Code</label>
+                    <input type="text" id="pincode" class="form-input" required>
+                </div>
+            </form>
+
+            <div class="payment-methods">
+                <h2 class="section-title">
+                    <i class="fas fa-credit-card"></i> Payment Method
+                </h2>
+
+                <!-- UPI Payment -->
+                <div class="payment-option active" id="upiOption">
+                    <div class="payment-header">
+                        <div class="payment-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <span>Pay using UPI</span>
+                    </div>
+                    <div class="payment-content">
+                        <p>Select your preferred UPI app:</p>
+                        <div class="upi-options">
+                            <div class="upi-option active" data-upi="googlepay">
+                                <i class="fab fa-google-pay" style="color: #5F6368;"></i>
+                                <div>Google Pay</div>
+                            </div>
+                            <div class="upi-option" data-upi="phonepay">
+                                <i class="fas fa-mobile-alt" style="color: #5C2D91;"></i>
+                                <div>PhonePe</div>
+                            </div>
+                            <div class="upi-option" data-upi="paytm">
+                                <i class="fas fa-wallet" style="color: #002970;"></i>
+                                <div>Paytm</div>
+                            </div>
+                            <div class="upi-option" data-upi="other">
+                                <i class="fas fa-qrcode" style="color: #333;"></i>
+                                <div>Other UPI Apps</div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="form-label" for="upiId">UPI ID</label>
+                            <input type="text" id="upiId" class="form-input" placeholder="yourname@upi">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credit/Debit Card -->
+                <div class="payment-option" id="cardOption">
+                    <div class="payment-header">
+                        <div class="payment-icon">
+                            <i class="far fa-credit-card"></i>
+                        </div>
+                        <span>Credit/Debit Card</span>
+                    </div>
+                    <div class="payment-content">
+                        <div class="form-group">
+                            <label class="form-label" for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" class="form-input" placeholder="1234 5678 9012 3456">
+                        </div>
+
+                        <div class="card-inputs">
+                            <div class="form-group">
+                                <label class="form-label" for="expiryDate">Expiry Date</label>
+                                <input type="text" id="expiryDate" class="form-input" placeholder="MM/YY">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="cvv">CVV</label>
+                                <input type="text" id="cvv" class="form-input" placeholder="123">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="cardName">Name on Card</label>
+                                <input type="text" id="cardName" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PayPal -->
+                <div class="payment-option" id="paypalOption">
+                    <div class="payment-header">
+                        <div class="payment-icon">
+                            <i class="fab fa-paypal"></i>
+                        </div>
+                        <span>PayPal</span>
+                    </div>
+                    <div class="payment-content">
+                        <p>You will be redirected to PayPal to complete your payment securely.</p>
+                        <div class="form-group">
+                            <label class="form-label" for="paypalEmail">PayPal Email</label>
+                            <input type="email" id="paypalEmail" class="form-input" placeholder="your@email.com">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cash on Delivery -->
+                <div class="payment-option" id="codOption">
+                    <div class="payment-header">
+                        <div class="payment-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <span>Cash on Delivery</span>
+                    </div>
+                    <div class="payment-content">
+                        <div class="cod-info">
+                            <p><i class="fas fa-info-circle"></i> Pay when your order is delivered</p>
+                            <p>Extra ₹20 charge for COD orders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="payNowBtn">
+                <i class="fas fa-lock"></i> Pay Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="modal-title">Payment Successful!</h2>
+            <p class="modal-message">Your order has been placed successfully. You will receive a confirmation email
+                shortly.</p>
+            <div class="order-id">Order ID: <span id="orderId">FD-123456</span></div>
+            <button class="btn btn-primary" id="continueShoppingBtn">
+                <i class="fas fa-shopping-bag"></i> Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Farmer Direct</h3>
+                <p>Connecting farmers directly with consumers for fresh, organic produce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="buyer-interface.html">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Farmers</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Farm Road, Green Valley</li>
+                    <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                    <li><i class="fas fa-envelope"></i> info@farmerdirect.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Farmer Direct. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // LocalStorage keys
+        const STORAGE_KEYS = {
+            PRODUCTS: 'farmDirectProducts',
+            ORDERS: 'farmDirectOrders'
+        };
+
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                product: params.get('product')
+            };
+        }
+
+        // Get products from localStorage
+        function getProducts() {
+            const products = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+            if (products) {
+                return JSON.parse(products);
+            }
+            return [];
+        }
+
+        // Get orders from localStorage
+        function getOrders() {
+            const orders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+            if (orders) {
+                return JSON.parse(orders);
+            }
+            return [];
+        }
+
+        // Save orders to localStorage
+        function saveOrders(orders) {
+            localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+        }
+
+        // Load product details
+        function loadProductDetails() {
+            const params = getUrlParams();
+            const productId = params.product;
+
+            if (!productId) {
+                // Redirect to buyer interface if no product specified
+                window.location.href = 'buyer-interface.html';
+                return;
+            }
+
+            const products = getProducts();
+            const product = products.find(p => p.id === productId);
+
+            if (!product) {
+                // Redirect to buyer interface if product not found
+                window.location.href = 'buyer-interface.html';
+                return;
+            }
+
+            // Update product details in the UI
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productPrice').textContent = `₹${product.price}/kg`;
+            document.getElementById('productFarmer').textContent = `Farmer: ${product.farmer}`;
+            document.getElementById('productImage').src = product.image;
+
+            // Calculate order totals
+            const subtotal = product.price;
+            const tax = Math.round(subtotal * 0.05); // 5% tax
+            const shipping = 40;
+            const total = subtotal + tax + shipping;
+
+            document.getElementById('subtotal').textContent = `₹${subtotal}`;
+            document.getElementById('tax').textContent = `₹${tax}`;
+            document.getElementById('totalAmount').textContent = `₹${total}`;
+
+            // Store product details for order creation
+            window.currentProduct = product;
+            window.orderTotal = total;
+        }
+
+        // Generate random order ID
+        function generateOrderId() {
+            return 'FD-' + Math.floor(100000 + Math.random() * 900000);
+        }
+
+        // Create order object
+        function createOrder(paymentMethod) {
+            const form = document.getElementById('checkoutForm');
+            const formData = new FormData(form);
+
+            return {
+                id: generateOrderId(),
+                productId: window.currentProduct.id,
+                productName: window.currentProduct.name,
+                productPrice: window.currentProduct.price,
+                productImage: window.currentProduct.image,
+                farmer: window.currentProduct.farmer,
+                totalAmount: window.orderTotal,
+                paymentMethod: paymentMethod,
+                customer: {
+                    name: document.getElementById('fullName').value,
+                    mobile: document.getElementById('mobileNumber').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    pincode: document.getElementById('pincode').value
+                },
+                status: 'confirmed',
+                date: new Date().toISOString()
+            };
+        }
+
+        // Initialize the page
+        function initializePage() {
+            // Load product details
+            loadProductDetails();
+
+            // Set up payment option toggles
+            document.querySelectorAll('.payment-header').forEach(header => {
+                header.addEventListener('click', function () {
+                    const option = this.parentElement;
+
+                    // Close all other options
+                    document.querySelectorAll('.payment-option').forEach(opt => {
+                        if (opt !== option) {
+                            opt.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current option
+                    option.classList.toggle('active');
+                });
+            });
+
+            // Set up UPI option selection
+            document.querySelectorAll('.upi-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    document.querySelectorAll('.upi-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+
+            // Set up Pay Now button
+            document.getElementById('payNowBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+
+                // Validate form
+                const form = document.getElementById('checkoutForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                // Determine selected payment method
+                let paymentMethod = '';
+                if (document.getElementById('upiOption').classList.contains('active')) {
+                    paymentMethod = 'UPI';
+                } else if (document.getElementById('cardOption').classList.contains('active')) {
+                    paymentMethod = 'Credit/Debit Card';
+                } else if (document.getElementById('paypalOption').classList.contains('active')) {
+                    paymentMethod = 'PayPal';
+                } else if (document.getElementById('codOption').classList.contains('active')) {
+                    paymentMethod = 'Cash on Delivery';
+                }
+
+                if (!paymentMethod) {
+                    alert('Please select a payment method');
+                    return;
+                }
+
+                // Create order
+                const order = createOrder(paymentMethod);
+
+                // Save order to localStorage
+                const orders = getOrders();
+                orders.push(order);
+                saveOrders(orders);
+
+                // Show success modal
+                document.getElementById('orderId').textContent = order.id;
+                document.getElementById('successModal').style.display = 'block';
+            });
+
+            // Set up Continue Shopping button
+            document.getElementById('continueShoppingBtn').addEventListener('click', function () {
+                window.location.href = 'buyer-interface.html';
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+
+</html>

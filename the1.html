@@ -1,0 +1,2716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Direct - Fresh Farm Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2d5a27;
+            --primary-light: #4a7c59;
+            --accent: #ffa726;
+            --light: #f5f7fa;
+            --dark: #333;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --cream: #f8f4e3;
+            --brown: #8b6b4c;
+            --dark-brown: #5d4a3a;
+            --light-brown: #a88c6d;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding: 30px 0;
+            min-height: 70vh;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Home Page Styles */
+        .search-container {
+            margin: 30px auto;
+        }
+
+        .search-box {
+            display: flex;
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-box button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-box button:hover {
+            background: var(--primary-light);
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .product-farmer {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            color: var(--accent);
+        }
+
+        .rating-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* About Us Page Styles */
+        .hero {
+            background: linear-gradient(rgba(45, 80, 22, 0.8), rgba(45, 80, 22, 0.9)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            margin-bottom: 4rem;
+            border-radius: 12px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .mission-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+
+        .mission-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .mission-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .mission-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .mission-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .benefit-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .steps:before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--primary-light);
+            z-index: 1;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 1rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .step h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .team-member:hover .member-image img {
+            transform: scale(1.1);
+        }
+
+        .member-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .member-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .member-info p {
+            color: var(--brown);
+            font-style: italic;
+        }
+
+        /* Cart Page Styles */
+        .cart-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-farmer {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .cart-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .summary-total {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        /* Checkout Page Styles */
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        .checkout-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .payment-option {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .payment-header {
+            padding: 15px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .payment-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .payment-option.active .payment-content {
+            padding: 15px;
+            max-height: 500px;
+        }
+
+        .payment-option.active .payment-header {
+            background: rgba(45, 90, 39, 0.1);
+            border-bottom: 1px solid #ddd;
+        }
+
+        .payment-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        /* Contact Page Styles */
+        .contact-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-info {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(45, 90, 39, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .info-text {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .complaints-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+        }
+
+        .complaints-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .complaints-title {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .complaints-count {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .complaints-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .complaint-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .complaint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .complaint-info {
+            flex: 1;
+        }
+
+        .complaint-id {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .complaint-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .complaint-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning);
+        }
+
+        .status-resolved {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        /* FAQ Page Styles */
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .category-card.active {
+            border-color: var(--primary);
+            background: rgba(45, 90, 39, 0.05);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(45, 90, 39, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .faq-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: var(--primary);
+        }
+
+        .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: #f8f9fa;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background: rgba(45, 90, 39, 0.05);
+        }
+
+        .faq-item.active .faq-question {
+            background: rgba(45, 90, 39, 0.1);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 1000px;
+        }
+
+        .chevron-icon {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        .contact-cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .cta-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .cta-description {
+            font-size: 16px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quick-help {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .help-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .help-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(45, 90, 39, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .help-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .help-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .help-contact {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .help-time {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 50px auto;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .modal-icon {
+            font-size: 60px;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .modal-message {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .order-id {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .mission-section {
+                flex-direction: column;
+            }
+
+            .steps:before {
+                display: none;
+            }
+
+            .step {
+                margin-bottom: 2rem;
+            }
+
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-sections {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo" id="logo">
+                <i class="fas fa-leaf"></i>
+                <h1>Farmer<span>Direct</span></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a class="active" data-page="home">Home</a></li>
+                <li><a data-page="about">About Us</a></li>
+                <li><a data-page="cart">Cart</a></li>
+                <li><a data-page="contact">Contact Us</a></li>
+                <li><a data-page="faq">FAQ</a></li>
+            </ul>
+            <div class="user-actions">
+                <div class="cart-icon" data-page="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Page -->
+        <div class="page-section active" id="home-page">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for fresh produce...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <h2 class="section-title">Fresh Farm Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+
+        <!-- About Us Page -->
+        <div class="page-section" id="about-page">
+            <section class="hero">
+                <h1>Connecting Farmers & Buyers Directly</h1>
+                <p>Eliminating middlemen to create fair, transparent, and sustainable agricultural commerce</p>
+            </section>
+
+            <section class="mission-section">
+                <div class="mission-text">
+                    <h2 class="section-title">Our Mission</h2>
+                    <p>Farmer's Direct Connect was founded with a simple yet powerful vision: to create a direct
+                        connection
+                        between farmers and buyers, eliminating the need for costly middlemen. Our platform empowers
+                        farmers
+                        to showcase their produce by uploading images and details of their crops, while buyers can
+                        directly
+                        view, communicate, and purchase from them.</p>
+                    <p>This innovative system promotes fair pricing, transparency, and trust between both parties. It
+                        helps
+                        farmers increase their income and ensures buyers receive fresh, authentic, and locally-sourced
+                        produce directly from the farm.</p>
+                    <p>Our platform is designed to be user-friendly, efficient, and location-aware, making it easy for
+                        buyers to find nearby farmers and for farmers to reach a wider market without additional costs.
+                    </p>
+                </div>
+                <div class="mission-image">
+                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                        alt="Farmers harvesting fresh produce">
+                </div>
+            </section>
+
+            <section class="benefits-section">
+                <h2 class="section-title">Benefits for Everyone</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <h3>For Farmers</h3>
+                        <p>Higher profits by eliminating middlemen, direct customer relationships, and access to wider
+                            markets with our location-based platform.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                        <h3>For Buyers</h3>
+                        <p>Fresh, authentic produce directly from farms, competitive prices, transparency in sourcing,
+                            and
+                            support for local agriculture.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>For Communities</h3>
+                        <p>Strengthened local economies, reduced food miles, sustainable farming practices, and fresher,
+                            healthier food options.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="how-it-works">
+                <h2 class="section-title">How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Farmers List Produce</h3>
+                        <p>Farmers upload photos and details of their available crops directly to our platform.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Buyers Browse & Connect</h3>
+                        <p>Buyers search for local farmers and products, then communicate directly with farmers.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Direct Transactions</h3>
+                        <p>Buyers purchase directly from farmers with secure payment options and fair pricing.</p>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Fresh Delivery</h3>
+                        <p>Farmers deliver fresh produce directly to buyers or arrange for convenient pickup.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <h2 class="section-title">Our Visionaries</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1581093458791-8a0a1edb6c70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                alt="Agricultural Expert">
+                        </div>
+                        <div class="member-info">
+                            <h3>Sarah Johnson</h3>
+                            <p>Agricultural Specialist</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                                alt="Technology Lead">
+                        </div>
+                        <div class="member-info">
+                            <h3>Michael Chen</h3>
+                            <p>Technology Director</p>
+                        </div>
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80"
+                                alt="Farm Relations">
+                        </div>
+                        <div class="member-info">
+                            <h3>Elena Rodriguez</h3>
+                            <p>Farm Relations Manager</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Cart Page -->
+        <div class="page-section" id="cart-page">
+            <h2 class="section-title">Your Shopping Cart</h2>
+            <div class="cart-container">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="cartSubtotal">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>₹40</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax:</span>
+                        <span id="cartTax">₹0</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0</span>
+                    </div>
+                    <button class="btn btn-primary" id="checkoutBtn"
+                        style="width: 100%; margin-top: 20px; padding: 15px;">
+                        <i class="fas fa-lock"></i> Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checkout Page -->
+        <div class="page-section" id="checkout-page">
+            <h2 class="section-title">Checkout</h2>
+            <div class="checkout-container">
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <div class="form-section">
+                            <h3 class="section-title">Personal Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="firstName">First Name</label>
+                                    <input type="text" id="firstName" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="email">Email Address</label>
+                                    <input type="email" id="email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" class="form-input" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title">Shipping Address</h3>
+                            <div class="form-group">
+                                <label class="form-label" for="address">Street Address</label>
+                                <input type="text" id="address" class="form-input" required>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="city">City</label>
+                                    <input type="text" id="city" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="state">State</label>
+                                    <input type="text" id="state" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="pincode">PIN Code</label>
+                                    <input type="text" id="pincode" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="country">Country</label>
+                                    <input type="text" id="country" class="form-input" value="India" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="section-title">Payment Method</h3>
+                            <div class="payment-methods">
+                                <div class="payment-option active" id="cardOption">
+                                    <div class="payment-header">
+                                        <div class="payment-icon">
+                                            <i class="far fa-credit-card"></i>
+                                        </div>
+                                        <span>Credit/Debit Card</span>
+                                    </div>
+                                    <div class="payment-content">
+                                        <div class="form-group">
+                                            <label class="form-label" for="cardNumber">Card Number</label>
+                                            <input type="text" id="cardNumber" class="form-input"
+                                                placeholder="1234 5678 9012 3456" required>
+                                        </div>
+
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label class="form-label" for="expiryDate">Expiry Date</label>
+                                                <input type="text" id="expiryDate" class="form-input"
+                                                    placeholder="MM/YY" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="cvv">CVV</label>
+                                                <input type="text" id="cvv" class="form-input" placeholder="123"
+                                                    required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label" for="cardName">Name on Card</label>
+                                                <input type="text" id="cardName" class="form-input" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="payment-option" id="codOption">
+                                    <div class="payment-header">
+                                        <div class="payment-icon">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <span>Cash on Delivery</span>
+                                    </div>
+                                    <div class="payment-content">
+                                        <p>Pay when your order is delivered. Extra ₹20 charge for COD orders.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="placeOrderBtn"
+                            style="width: 100%; padding: 15px;">
+                            <i class="fas fa-lock"></i> Place Order
+                        </button>
+                    </form>
+                </div>
+
+                <div class="order-summary">
+                    <h3 class="section-title">Order Summary</h3>
+                    <div class="cart-items" id="orderItems">
+                        <!-- Order items will be loaded here -->
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="orderSubtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span>₹40</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax:</span>
+                            <span id="orderTax">₹0</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span>Total:</span>
+                            <span id="orderTotal">₹0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page-section" id="contact-page">
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-sections">
+                <div class="contact-form">
+                    <h3 class="section-title">Submit a Complaint</h3>
+                    <form id="complaintForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="fullName">Full Name</label>
+                                <input type="text" id="fullName" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input type="email" id="email" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="category">Complaint Category</label>
+                                <select id="category" class="form-input" required>
+                                    <option value="">Select Category</option>
+                                    <option value="order-issue">Order Issue</option>
+                                    <option value="product-quality">Product Quality</option>
+                                    <option value="delivery-problem">Delivery Problem</option>
+                                    <option value="payment-issue">Payment Issue</option>
+                                    <option value="account-problem">Account Problem</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="subject">Subject</label>
+                            <input type="text" id="subject" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="message">Complaint Details</label>
+                            <textarea id="message" class="form-textarea"
+                                placeholder="Please describe your issue in detail..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Submit Complaint
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3 class="section-title">Contact Information</h3>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Email Address</h3>
+                            <p class="info-text">farmerapp@gmail.com</p>
+                            <p class="info-text">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Customer Care</h3>
+                            <p class="info-text">1111-2235-5567</p>
+                            <p class="info-text">Available 9 AM - 6 PM, Monday to Saturday</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Office Address</h3>
+                            <p class="info-text">A.P, Vijayawada</p>
+                            <p class="info-text">Visit our office during business hours</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3 class="info-title">Business Hours</h3>
+                            <p class="info-text">Monday - Friday: 9:00 AM - 6:00 PM</p>
+                            <p class="info-text">Saturday: 9:00 AM - 2:00 PM</p>
+                            <p class="info-text">Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="complaints-section">
+                <div class="complaints-header">
+                    <h3 class="complaints-title">
+                        <i class="fas fa-history"></i> Your Complaints
+                        <span class="complaints-count" id="complaintsCount">0</span>
+                    </h3>
+                </div>
+
+                <div class="complaints-list" id="complaintsList">
+                    <!-- Complaints will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Page -->
+        <div class="page-section" id="faq-page">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="faqSearchInput" placeholder="Search for answers...">
+                    <button id="faqSearchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="faq-categories">
+                <div class="category-card active" data-category="all">
+                    <div class="category-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="category-title">All Questions</h3>
+                    <p class="category-count">16 questions</p>
+                </div>
+                <div class="category-card" data-category="ordering">
+                    <div class="category-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3 class="category-title">Ordering</h3>
+                    <p class="category-count">5 questions</p>
+                </div>
+                <div class="category-card" data-category="delivery">
+                    <div class="category-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="category-title">Delivery</h3>
+                    <p class="category-count">4 questions</p>
+                </div>
+                <div class="category-card" data-category="products">
+                    <div class="category-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3 class="category-title">Products</h3>
+                    <p class="category-count">3 questions</p>
+                </div>
+                <div class="category-card" data-category="returns">
+                    <div class="category-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="category-title">Returns & Refunds</h3>
+                    <p class="category-count">2 questions</p>
+                </div>
+                <div class="category-card" data-category="account">
+                    <div class="category-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="category-title">Account</h3>
+                    <p class="category-count">2 questions</p>
+                </div>
+            </div>
+
+            <div class="faq-content">
+                <h3 class="section-title">Popular Questions</h3>
+                <div class="faq-list" id="faqList">
+                    <!-- FAQ items will be loaded here -->
+                </div>
+            </div>
+
+            <div class="quick-help">
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="help-title">Call Us</h3>
+                    <p class="help-description">Speak directly with our support team</p>
+                    <div class="help-contact">1111-2235-5567</div>
+                    <div class="help-time">9 AM - 6 PM, Mon-Sat</div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="help-title">Email Us</h3>
+                    <p class="help-description">Send us your questions anytime</p>
+                    <div class="help-contact">farmerapp@gmail.com</div>
+                    <div class="help-time">Response within 24 hours</div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="help-title">Live Chat</h3>
+                    <p class="help-description">Instant help during business hours</p>
+                    <div class="help-contact">Start Chat</div>
+                    <div class="help-time">9 AM - 6 PM, Mon-Sat</div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 class="help-title">Visit Us</h3>
+                    <p class="help-description">Meet us in person</p>
+                    <div class="help-contact">A.P, Vijayawada</div>
+                    <div class="help-time">9 AM - 6 PM, Mon-Sat</div>
+                </div>
+            </div>
+
+            <div class="contact-cta">
+                <h2 class="cta-title">Still Have Questions?</h2>
+                <p class="cta-description">
+                    Can't find what you're looking for? Our customer support team is here to help you with any
+                    questions.
+                </p>
+                <button class="btn btn-primary" data-page="contact" style="background: white; color: var(--primary);">
+                    <i class="fas fa-headset"></i> Contact Support
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="modal-title">Order Placed Successfully!</h2>
+            <p class="modal-message">Thank you for your purchase. Your order has been confirmed and will be delivered
+                soon.</p>
+            <div class="order-id">Order ID: <span id="orderId">FD-123456</span></div>
+            <button class="btn btn-primary" id="continueShoppingBtn" style="width: 100%;">
+                <i class="fas fa-shopping-bag"></i> Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Product added to cart!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Farmer Direct</h3>
+                <p>Connecting farmers directly with consumers for fresh, organic produce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a data-page="home">Home</a></li>
+                    <li><a data-page="about">About Us</a></li>
+                    <li><a data-page="contact">Contact Us</a></li>
+                    <li><a data-page="faq">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a data-page="contact">Contact Us</a></li>
+                    <li><a data-page="faq">FAQs</a></li>
+                    <li><a>Shipping Policy</a></li>
+                    <li><a>Return Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> A.P, Vijayawada</li>
+                    <li><i class="fas fa-phone"></i> 1111-2235-5567</li>
+                    <li><i class="fas fa-envelope"></i> farmerapp@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 Farmer Direct. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Sample product data
+        const sampleProducts = [
+            {
+                id: '1',
+                name: 'Organic Tomatoes',
+                price: 80,
+                image: 'https://images.unsplash.com/photo-1546470427-e212b7d31075?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Green Valley Farm',
+                description: 'Fresh, juicy organic tomatoes grown without pesticides. Perfect for salads, sauces, and cooking. These tomatoes are hand-picked at peak ripeness to ensure maximum flavor and nutrition.',
+                category: 'vegetables',
+                availability: 'In Stock',
+                delivery: '2-3 days'
+            },
+            {
+                id: '2',
+                name: 'Fresh Carrots',
+                price: 60,
+                image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Sunshine Farms',
+                description: 'Sweet and crunchy carrots, harvested at peak freshness. Rich in vitamins and antioxidants. Perfect for snacking, juicing, or cooking in your favorite dishes.',
+                category: 'vegetables',
+                availability: 'In Stock',
+                delivery: '1-2 days'
+            },
+            {
+                id: '3',
+                name: 'Green Apples',
+                price: 120,
+                image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Orchard Fresh',
+                description: 'Crisp and tart green apples, perfect for snacking or baking. Grown in sustainable orchards. These apples are packed with fiber and essential nutrients.',
+                category: 'fruits',
+                availability: 'In Stock',
+                delivery: '2-4 days'
+            },
+            {
+                id: '4',
+                name: 'Basmati Rice',
+                price: 90,
+                image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Paddy Fields',
+                description: 'Premium quality basmati rice with long grains and aromatic fragrance. Perfect for biryanis and pulao. Each grain is carefully selected for quality.',
+                category: 'grains',
+                availability: 'In Stock',
+                delivery: '3-5 days'
+            },
+            {
+                id: '5',
+                name: 'Fresh Spinach',
+                price: 40,
+                image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Leafy Greens Co.',
+                description: 'Tender and nutritious spinach leaves, packed with iron and vitamins. Great for salads and cooking. Freshly harvested and carefully packed.',
+                category: 'vegetables',
+                availability: 'In Stock',
+                delivery: '1-2 days'
+            },
+            {
+                id: '6',
+                name: 'Strawberries',
+                price: 150,
+                image: 'https://images.unsplash.com/photo-1464454709131-ffd692591ee5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+                farmer: 'Berry Good Farms',
+                description: 'Sweet and juicy strawberries, hand-picked at peak ripeness. Perfect for desserts or eating fresh. These berries are naturally grown without artificial preservatives.',
+                category: 'fruits',
+                availability: 'Limited Stock',
+                delivery: '1-3 days'
+            }
+        ];
+
+        // FAQ Data
+        const faqData = [
+            // Ordering Questions
+            {
+                id: 1,
+                category: 'ordering',
+                question: 'How do I place an order?',
+                answer: 'To place an order, simply browse our products, add items to your cart, and proceed to checkout. You can create an account for faster checkout or checkout as a guest. We accept various payment methods including credit/debit cards, UPI, and cash on delivery.'
+            },
+            {
+                id: 2,
+                category: 'ordering',
+                question: 'What payment methods do you accept?',
+                answer: 'We accept multiple payment methods: Credit/Debit Cards (Visa, MasterCard, RuPay), UPI payments (Google Pay, PhonePe, Paytm), Net Banking, and Cash on Delivery (COD). All online payments are secured with SSL encryption.'
+            },
+            {
+                id: 3,
+                category: 'ordering',
+                question: 'Can I modify or cancel my order?',
+                answer: 'You can modify or cancel your order within 1 hour of placing it. After that, the order enters processing and cannot be changed. To modify or cancel, go to "My Orders" section and look for the option. For assistance, contact our support team immediately.'
+            },
+            {
+                id: 4,
+                category: 'ordering',
+                question: 'Is there a minimum order amount?',
+                answer: 'Yes, we have a minimum order amount of ₹200 for delivery. This helps us maintain efficient delivery operations while keeping costs reasonable. Orders below this amount can be picked up from our local collection points.'
+            },
+            {
+                id: 5,
+                category: 'ordering',
+                question: 'Do you offer bulk discounts?',
+                answer: 'Yes, we offer special discounts for bulk orders. For orders above ₹2000, you get 5% discount, and for orders above ₹5000, you get 10% discount. For larger institutional orders, please contact our sales team for custom pricing.'
+            },
+
+            // Delivery Questions
+            {
+                id: 6,
+                category: 'delivery',
+                question: 'What are your delivery areas?',
+                answer: 'We currently deliver within Vijayawada and surrounding areas. Our delivery radius is 15km from our central location. You can check if your area is covered by entering your PIN code during checkout. We are expanding to new areas regularly.'
+            },
+            {
+                id: 7,
+                category: 'delivery',
+                question: 'What are your delivery timings?',
+                answer: 'We deliver from 7 AM to 9 PM, seven days a week. You can choose your preferred delivery slot during checkout: Morning (7 AM - 11 AM), Afternoon (11 AM - 3 PM), or Evening (3 PM - 9 PM). Same-day delivery is available for orders placed before 12 PM.'
+            },
+            {
+                id: 8,
+                category: 'delivery',
+                question: 'Do you charge for delivery?',
+                answer: 'Delivery is free for all orders above ₹500. For orders below ₹500, we charge a nominal delivery fee of ₹40. This helps cover our delivery operational costs while keeping your farm-fresh products affordable.'
+            },
+            {
+                id: 9,
+                category: 'delivery',
+                question: 'Can I track my delivery?',
+                answer: 'Yes, you can track your delivery in real-time. Once your order is out for delivery, you will receive an SMS with a tracking link. You can also track your order from the "My Orders" section in your account.'
+            },
+
+            // Products Questions
+            {
+                id: 10,
+                category: 'products',
+                question: 'Are your products organic?',
+                answer: 'Most of our products are organically grown by our partner farmers. We work closely with farmers who follow sustainable farming practices. Products that are certified organic are clearly marked with the organic certification logo. We are committed to providing chemical-free, fresh produce.'
+            },
+            {
+                id: 11,
+                category: 'products',
+                question: 'How fresh are your products?',
+                answer: 'Our products are harvested fresh daily and delivered directly to you. We follow a farm-to-table model where products are sourced in the morning and delivered the same day. This ensures maximum freshness and nutritional value in every order.'
+            },
+            {
+                id: 12,
+                category: 'products',
+                question: 'Do you offer seasonal products?',
+                answer: 'Yes, we offer a wide variety of seasonal fruits and vegetables. Our product selection changes with the seasons to ensure you get the freshest, most flavorful produce available. Check our "Seasonal Specials" section for current offerings.'
+            },
+
+            // Returns Questions
+            {
+                id: 13,
+                category: 'returns',
+                question: 'What is your return policy?',
+                answer: 'We accept returns within 24 hours for fresh produce and 7 days for packaged goods. Products must be in their original condition. For damaged or incorrect items, please contact us immediately. Visit our Return Policy page for complete details.'
+            },
+            {
+                id: 14,
+                category: 'returns',
+                question: 'How do I return a product?',
+                answer: 'To return a product, contact our customer support within the return period. Provide your order number and reason for return. We will arrange a pickup from your location. Once we receive and verify the return, your refund will be processed within 3-5 business days.'
+            },
+
+            // Account Questions
+            {
+                id: 15,
+                category: 'account',
+                question: 'How do I create an account?',
+                answer: 'You can create an account by clicking "Sign Up" on the top right corner. You will need to provide your name, email address, and create a password. Alternatively, you can sign up using your Google account for faster registration.'
+            },
+            {
+                id: 16,
+                category: 'account',
+                question: 'I forgot my password. What should I do?',
+                answer: 'Click on "Forgot Password" on the login page. Enter your registered email address, and we will send you a password reset link. Follow the instructions in the email to create a new password. The link will be valid for 2 hours.'
+            }
+        ];
+
+        // Cart functionality
+        let cart = [];
+        let currentPage = 'home';
+
+        // Navigation functionality
+        function setupNavigation() {
+            // Set up navigation links
+            document.querySelectorAll('.nav-links a, .user-actions .cart-icon, .footer-links a').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page) {
+                        navigateToPage(page);
+                    }
+                });
+            });
+
+            // Logo click - go to home
+            document.getElementById('logo').addEventListener('click', function () {
+                navigateToPage('home');
+            });
+
+            // Continue shopping button
+            document.getElementById('continueShoppingBtn').addEventListener('click', function () {
+                navigateToPage('home');
+                document.getElementById('successModal').style.display = 'none';
+            });
+
+            // Checkout button
+            document.getElementById('checkoutBtn').addEventListener('click', function () {
+                if (cart.length > 0) {
+                    navigateToPage('checkout');
+                } else {
+                    showToast('Your cart is empty');
+                }
+            });
+        }
+
+        // Navigate to a specific page
+        function navigateToPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(`${page}-page`).classList.add('active');
+
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update current page
+            currentPage = page;
+
+            // Update page-specific content
+            if (page === 'cart') {
+                displayCart();
+            } else if (page === 'checkout') {
+                displayCheckout();
+            } else if (page === 'faq') {
+                displayFAQs('all');
+            } else if (page === 'contact') {
+                displayComplaints();
+            }
+        }
+
+        // Display products in grid
+        function displayProducts(products) {
+            const productsGrid = document.getElementById('productsGrid');
+
+            if (products.length === 0) {
+                productsGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666;">
+                        <i class="fas fa-search" style="font-size: 60px; margin-bottom: 20px; color: #ddd;"></i>
+                        <h3 style="font-size: 24px; margin-bottom: 10px;">No Products Found</h3>
+                        <p>Try adjusting your search terms or browse all products.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productsGrid.innerHTML = products.map(product => {
+                return `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-price">₹${product.price}/kg</div>
+                            <div class="product-farmer">By ${product.farmer}</div>
+                            <div class="product-rating">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="rating-count">(${Math.floor(Math.random() * 50) + 10} reviews)</span>
+                            </div>
+                            <button class="btn btn-primary add-to-cart-btn" data-product-id="${product.id}" style="width: 100%; margin-top: 10px;">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add click event to add to cart buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const productId = this.getAttribute('data-product-id');
+                    addToCart(productId);
+                });
+            });
+        }
+
+        // Add product to cart
+        function addToCart(productId) {
+            const product = sampleProducts.find(p => p.id === productId);
+
+            if (product) {
+                // Check if product already in cart
+                const existingItem = cart.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        ...product,
+                        quantity: 1
+                    });
+                }
+
+                updateCartCount();
+                showToast(`${product.name} added to cart!`);
+            }
+        }
+
+        // Update cart count in header
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Display cart items
+        function displayCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSubtotal = document.getElementById('cartSubtotal');
+            const cartTax = document.getElementById('cartTax');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-shopping-cart" style="font-size: 60px; margin-bottom: 20px; color: #ddd;"></i>
+                        <h3 style="font-size: 20px; margin-bottom: 10px;">Your cart is empty</h3>
+                        <p>Add some fresh products to get started!</p>
+                    </div>
+                `;
+                cartSubtotal.textContent = '₹0';
+                cartTax.textContent = '₹0';
+                cartTotal.textContent = '₹0';
+                return;
+            }
+
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = Math.round(subtotal * 0.05);
+            const total = subtotal + tax + 40;
+
+            cartSubtotal.textContent = `₹${subtotal}`;
+            cartTax.textContent = `₹${tax}`;
+            cartTotal.textContent = `₹${total}`;
+
+            // Generate cart items HTML
+            cartItems.innerHTML = cart.map(item => {
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-farmer">By ${item.farmer}</div>
+                            <div class="cart-item-price">₹${item.price}/kg</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <button class="quantity-btn decrease-btn" data-product-id="${item.id}">-</button>
+                            <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                            <button class="quantity-btn increase-btn" data-product-id="${item.id}">+</button>
+                        </div>
+                        <div class="cart-item-price">₹${item.price * item.quantity}</div>
+                        <button class="btn btn-secondary remove-btn" data-product-id="${item.id}" style="padding: 5px 10px;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Add event listeners for quantity buttons
+            document.querySelectorAll('.increase-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    updateCartItemQuantity(productId, 1);
+                });
+            });
+
+            document.querySelectorAll('.decrease-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    updateCartItemQuantity(productId, -1);
+                });
+            });
+
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        // Update cart item quantity
+        function updateCartItemQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    displayCart();
+                    updateCartCount();
+                }
+            }
+        }
+
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            displayCart();
+            updateCartCount();
+            showToast('Item removed from cart');
+        }
+
+        // Display checkout page
+        function displayCheckout() {
+            const orderItems = document.getElementById('orderItems');
+            const orderSubtotal = document.getElementById('orderSubtotal');
+            const orderTax = document.getElementById('orderTax');
+            const orderTotal = document.getElementById('orderTotal');
+
+            // Calculate totals
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = Math.round(subtotal * 0.05);
+            const total = subtotal + tax + 40;
+
+            orderSubtotal.textContent = `₹${subtotal}`;
+            orderTax.textContent = `₹${tax}`;
+            orderTotal.textContent = `₹${total}`;
+
+            // Generate order items HTML
+            orderItems.innerHTML = cart.map(item => {
+                return `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-farmer">By ${item.farmer}</div>
+                            <div class="cart-item-price">₹${item.price}/kg</div>
+                        </div>
+                        <div class="cart-item-quantity">
+                            <span>Qty: ${item.quantity}</span>
+                        </div>
+                        <div class="cart-item-price">₹${item.price * item.quantity}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display FAQs
+        function displayFAQs(category) {
+            const faqList = document.getElementById('faqList');
+            let filteredFAQs = faqData;
+
+            if (category !== 'all') {
+                filteredFAQs = faqData.filter(faq => faq.category === category);
+            }
+
+            if (filteredFAQs.length === 0) {
+                faqList.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-search" style="font-size: 60px; margin-bottom: 20px; color: #ddd;"></i>
+                        <h3 style="font-size: 20px; margin-bottom: 10px;">No questions found</h3>
+                        <p>Try selecting a different category or searching for something else.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Generate FAQ HTML
+            faqList.innerHTML = filteredFAQs.map(faq => `
+                <div class="faq-item" data-faq-id="${faq.id}">
+                    <div class="faq-question">
+                        ${faq.question}
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ${faq.answer}
+                    </div>
+                </div>
+            `).join('');
+
+            // Setup FAQ accordion
+            setupFAQAccordion();
+        }
+
+        // Setup FAQ accordion functionality
+        function setupFAQAccordion() {
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function () {
+                    const faqItem = this.parentElement;
+                    const isActive = faqItem.classList.contains('active');
+
+                    // Close all FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+
+                    // Open clicked item if it wasn't active
+                    if (!isActive) {
+                        faqItem.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Display complaints
+        function displayComplaints() {
+            const complaintsList = document.getElementById('complaintsList');
+            const complaintsCount = document.getElementById('complaintsCount');
+
+            // Get complaints from localStorage or use sample data
+            let complaints = JSON.parse(localStorage.getItem('farmDirectComplaints')) || [];
+
+            // Update complaints count
+            complaintsCount.textContent = complaints.length;
+
+            if (complaints.length === 0) {
+                complaintsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-inbox" style="font-size: 60px; margin-bottom: 20px; color: #ddd;"></i>
+                        <h3 style="font-size: 20px; margin-bottom: 10px;">No Complaints Yet</h3>
+                        <p>You haven't submitted any complaints yet.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort complaints by date (newest first)
+            complaints.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Generate complaints HTML
+            complaintsList.innerHTML = complaints.map(complaint => {
+                const complaintDate = new Date(complaint.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                return `
+                    <div class="complaint-card">
+                        <div class="complaint-header">
+                            <div class="complaint-info">
+                                <div class="complaint-id">${complaint.id}</div>
+                                <div class="complaint-date">Submitted on ${complaintDate}</div>
+                            </div>
+                            <div class="complaint-status status-${complaint.status}">
+                                ${complaint.status === 'pending' ? 'Response Not Given' : 'Resolved'}
+                            </div>
+                        </div>
+                        
+                        <div class="complaint-details">
+                            <div class="complaint-category">Category: ${complaint.category.replace('-', ' ').toUpperCase()}</div>
+                            <div class="complaint-subject" style="font-weight: 600; margin-bottom: 8px;">${complaint.subject}</div>
+                            <div class="complaint-message">${complaint.message}</div>
+                        </div>
+                        
+                        ${complaint.response ? `
+                            <div class="complaint-response">
+                                <span class="response-label">Our Response:</span>
+                                <div class="complaint-message">${complaint.response}</div>
+                                <div style="font-size: 12px; color: #666; margin-top: 8px;">
+                                    Responded on ${new Date(complaint.responseDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+                                </div>
+                            </div>
+                        ` : `
+                            <div style="font-size: 14px; color: var(--warning); margin-top: 10px;">
+                                <i class="fas fa-clock"></i> Waiting for our response
+                            </div>
+                        `}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Search products
+        function searchProducts(query) {
+            if (!query.trim()) {
+                return sampleProducts; // Return all products if search is empty
+            }
+
+            const lowerQuery = query.toLowerCase();
+            return sampleProducts.filter(product =>
+                product.name.toLowerCase().includes(lowerQuery) ||
+                product.farmer.toLowerCase().includes(lowerQuery) ||
+                product.category.toLowerCase().includes(lowerQuery) ||
+                product.description.toLowerCase().includes(lowerQuery)
+            );
+        }
+
+        // Initialize the page
+        function initializePage() {
+            // Setup navigation
+            setupNavigation();
+
+            // Display all products initially
+            displayProducts(sampleProducts);
+
+            // Set up search functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+
+            // Search on button click
+            searchBtn.addEventListener('click', function () {
+                const query = searchInput.value;
+                const results = searchProducts(query);
+                displayProducts(results);
+
+                if (results.length === 0 && query.trim() !== '') {
+                    showToast('No products found for your search');
+                }
+            });
+
+            // Search on Enter key press
+            searchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const query = searchInput.value;
+                    const results = searchProducts(query);
+                    displayProducts(results);
+
+                    if (results.length === 0 && query.trim() !== '') {
+                        showToast('No products found for your search');
+                    }
+                }
+            });
+
+            // Real-time search as user types
+            searchInput.addEventListener('input', function () {
+                const query = this.value;
+                const results = searchProducts(query);
+                displayProducts(results);
+            });
+
+            // Set up FAQ search
+            const faqSearchInput = document.getElementById('faqSearchInput');
+            const faqSearchBtn = document.getElementById('faqSearchBtn');
+
+            faqSearchBtn.addEventListener('click', performFAQSearch);
+            faqSearchInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    performFAQSearch();
+                }
+            });
+
+            // Set up FAQ category filters
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function () {
+                    // Remove active class from all cards
+                    document.querySelectorAll('.category-card').forEach(c => {
+                        c.classList.remove('active');
+                    });
+
+                    // Add active class to clicked card
+                    this.classList.add('active');
+
+                    // Filter FAQs
+                    const category = this.getAttribute('data-category');
+                    displayFAQs(category);
+                });
+            });
+
+            // Set up payment option toggles
+            document.querySelectorAll('.payment-header').forEach(header => {
+                header.addEventListener('click', function () {
+                    const option = this.parentElement;
+
+                    // Close all other options
+                    document.querySelectorAll('.payment-option').forEach(opt => {
+                        if (opt !== option) {
+                            opt.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current option
+                    option.classList.toggle('active');
+                });
+            });
+
+            // Set up checkout form submission
+            document.getElementById('checkoutForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Generate random order ID
+                const orderId = 'FD-' + Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('orderId').textContent = orderId;
+
+                // Show success modal
+                document.getElementById('successModal').style.display = 'block';
+
+                // Clear cart
+                cart = [];
+                updateCartCount();
+            });
+
+            // Set up complaint form submission
+            document.getElementById('complaintForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const fullName = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const category = document.getElementById('category').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+
+                // Generate complaint ID
+                const complaintId = 'COMP-' + Math.floor(100000 + Math.random() * 900000);
+
+                // Create complaint object
+                const complaint = {
+                    id: complaintId,
+                    fullName: fullName,
+                    email: email,
+                    phone: phone,
+                    category: category,
+                    subject: subject,
+                    message: message,
+                    status: 'pending',
+                    date: new Date().toISOString(),
+                    response: null,
+                    responseDate: null
+                };
+
+                // Save complaint to localStorage
+                let complaints = JSON.parse(localStorage.getItem('farmDirectComplaints')) || [];
+                complaints.push(complaint);
+                localStorage.setItem('farmDirectComplaints', JSON.stringify(complaints));
+
+                // Show success message
+                showToast('Complaint submitted successfully! We will get back to you soon.');
+
+                // Reset form
+                document.getElementById('complaintForm').reset();
+
+                // Refresh complaints list
+                displayComplaints();
+            });
+
+            // Initialize sample complaints if none exist
+            if (!localStorage.getItem('farmDirectComplaints')) {
+                const sampleComplaints = [
+                    {
+                        id: 'COMP-123456',
+                        fullName: 'Rajesh Kumar',
+                        email: 'rajesh@example.com',
+                        phone: '9876543210',
+                        category: 'order-issue',
+                        subject: 'Missing items in my order',
+                        message: 'I received my order today but found that 2kg of tomatoes were missing from the delivery. The invoice shows the items but they were not in the package.',
+                        status: 'resolved',
+                        date: new Date(Date.now() - 86400000).toISOString(),
+                        response: 'We apologize for the inconvenience. We have identified the issue with our packaging team and have issued a full refund for the missing items. Your next order will include a 10% discount as compensation.',
+                        responseDate: new Date(Date.now() - 43200000).toISOString()
+                    },
+                    {
+                        id: 'COMP-123457',
+                        fullName: 'Rajesh Kumar',
+                        email: 'rajesh@example.com',
+                        phone: '9876543210',
+                        category: 'product-quality',
+                        subject: 'Poor quality carrots',
+                        message: 'The carrots I received yesterday were not fresh and some were soft and bendable. I expected better quality from Farmer Direct.',
+                        status: 'pending',
+                        date: new Date(Date.now() - 172800000).toISOString(),
+                        response: null,
+                        responseDate: null
+                    }
+                ];
+
+                localStorage.setItem('farmDirectComplaints', JSON.stringify(sampleComplaints));
+            }
+        }
+
+        // Perform FAQ search
+        function performFAQSearch() {
+            const searchTerm = document.getElementById('faqSearchInput').value.toLowerCase().trim();
+
+            if (!searchTerm) {
+                // If search is empty, show current category
+                const activeCategory = document.querySelector('.category-card.active').getAttribute('data-category');
+                displayFAQs(activeCategory);
+                return;
+            }
+
+            const faqList = document.getElementById('faqList');
+            const filteredFAQs = faqData.filter(faq =>
+                faq.question.toLowerCase().includes(searchTerm) ||
+                faq.answer.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredFAQs.length === 0) {
+                faqList.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: #666;">
+                        <i class="fas fa-search" style="font-size: 60px; margin-bottom: 20px; color: #ddd;"></i>
+                        <h3 style="font-size: 20px; margin-bottom: 10px;">No results found</h3>
+                        <p>We couldn't find any questions matching "${searchTerm}". Try different keywords or contact our support team.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Generate FAQ HTML for search results
+            faqList.innerHTML = filteredFAQs.map(faq => `
+                <div class="faq-item" data-faq-id="${faq.id}">
+                    <div class="faq-question">
+                        ${faq.question}
+                        <i class="fas fa-chevron-down chevron-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        ${faq.answer}
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-setup accordion for search results
+            setupFAQAccordion();
+
+            // Open all search results by default
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.add('active');
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+
+</html>

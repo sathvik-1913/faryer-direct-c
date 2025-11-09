@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Policy | Farmer's Market</title>
+    <style>
+        :root {
+            --primary-green: #4a7c59;
+            --light-green: #8fb996;
+            --cream: #f8f4e3;
+            --brown: #8b6b4c;
+            --dark-brown: #5d4a3a;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--dark-brown);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 1.5rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--light-green);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-green);
+        }
+
+        .page-header h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--brown);
+            font-size: 1.1rem;
+        }
+
+        .policy-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .policy-section {
+            margin-bottom: 2rem;
+        }
+
+        .policy-section h2 {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--light-green);
+        }
+
+        .policy-section p {
+            margin-bottom: 1rem;
+        }
+
+        .policy-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .policy-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .shipping-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .shipping-option {
+            flex: 1;
+            min-width: 250px;
+            background-color: var(--cream);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .shipping-option h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .shipping-option .price {
+            font-weight: bold;
+            color: var(--brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .shipping-option .time {
+            color: var(--dark-brown);
+            font-style: italic;
+        }
+
+        .faq-section {
+            margin-top: 2rem;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--light-green);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background-color: var(--dark-brown);
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            background-color: var(--white);
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .contact-section {
+            background-color: var(--light-green);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-section h2 {
+            color: var(--dark-brown);
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-brown);
+        }
+
+        footer {
+            background-color: var(--dark-brown);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: var(--light-green);
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav li {
+                margin: 0.5rem;
+            }
+
+            .shipping-options {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🌱</span>
+                <span>Farmer's Market</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <h1>Shipping Policy</h1>
+            <p>Fresh from our farm to your doorstep</p>
+        </div>
+
+        <div class="policy-container">
+            <div class="policy-section">
+                <h2>Our Shipping Commitment</h2>
+                <p>At Farmer's Market, we understand that freshness is paramount when it comes to farm-fresh produce.
+                    That's why we've developed a specialized shipping process to ensure your items arrive in perfect
+                    condition.</p>
+                <p>We harvest most items the same day they ship, guaranteeing maximum freshness and nutritional value.
+                </p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Shipping Options & Delivery Times</h2>
+                <p>We offer several shipping options to meet your needs:</p>
+
+                <div class="shipping-options">
+                    <div class="shipping-option">
+                        <h3>Standard Shipping</h3>
+                        <p class="price">$5.99</p>
+                        <p class="time">3-5 business days</p>
+                        <p>Perfect for non-perishable items and pantry staples.</p>
+                    </div>
+
+                    <div class="shipping-option">
+                        <h3>Express Shipping</h3>
+                        <p class="price">$12.99</p>
+                        <p class="time">1-2 business days</p>
+                        <p>Ideal for most fresh produce and dairy products.</p>
+                    </div>
+
+                    <div class="shipping-option">
+                        <h3>Overnight Shipping</h3>
+                        <p class="price">$19.99</p>
+                        <p class="time">Next business day</p>
+                        <p>Recommended for highly perishable items like berries and leafy greens.</p>
+                    </div>
+                </div>
+
+                <p><strong>Note:</strong> We do not ship on weekends to ensure product quality. Orders placed after 2 PM
+                    local time will be processed the next business day.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Shipping Areas</h2>
+                <p>We currently ship to all 50 states in the U.S. Shipping times may vary based on your location:</p>
+                <ul>
+                    <li><strong>Local (within 100 miles):</strong> 1-2 business days with standard shipping</li>
+                    <li><strong>Regional (100-500 miles):</strong> 2-3 business days with standard shipping</li>
+                    <li><strong>National (500+ miles):</strong> 3-5 business days with standard shipping</li>
+                </ul>
+                <p>We're working to expand our shipping capabilities to international locations. Please check back for
+                    updates.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Packaging & Freshness Guarantee</h2>
+                <p>All our shipments include specialized packaging to maintain freshness:</p>
+                <ul>
+                    <li>Insulated boxes with temperature control</li>
+                    <li>Biodegradable cooling packs for perishables</li>
+                    <li>Breathable packaging for produce that needs air circulation</li>
+                    <li>Secure packaging to prevent damage during transit</li>
+                </ul>
+                <p>If your items arrive damaged or not fresh, please contact us within 24 hours of delivery for a full
+                    refund or replacement.</p>
+            </div>
+
+            <div class="policy-section">
+                <h2>Order Tracking</h2>
+                <p>Once your order ships, you'll receive a confirmation email with tracking information. You can use
+                    this to monitor your package's journey from our farm to your home.</p>
+                <p>For orders with multiple items that ship separately, you'll receive tracking information for each
+                    shipment.</p>
+            </div>
+
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer free shipping?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We offer free standard shipping on all orders over $50. For orders under $50, standard
+                            shipping is $5.99.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I change my shipping address after ordering?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can change your shipping address within 2 hours of placing your order by contacting our
+                            customer service team. After that time, we cannot guarantee address changes as orders enter
+                            our fulfillment process.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What if I'm not home when my package arrives?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our packages are designed to maintain temperature for several hours. However, we recommend
+                            having someone available to bring perishable items indoors promptly. For security, you can
+                            also provide delivery instructions during checkout.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you ship to PO boxes?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We can only ship non-perishable items to PO boxes. Perishable items require a physical
+                            address for delivery.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is your policy during extreme weather?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>During extreme weather conditions that could compromise product quality, we may delay
+                            shipments. In such cases, we will notify you promptly and work to ship your order as soon as
+                            conditions improve.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h2>Still Have Questions?</h2>
+                <p>Our customer service team is here to help with any shipping inquiries.</p>
+                <a href="#" class="btn">Contact Us</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 Farmer's Market. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Return Policy</a>
+                <a href="#">Shipping Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = answer.classList.contains('active');
+
+                // Close all answers
+                document.querySelectorAll('.faq-answer').forEach(ans => {
+                    ans.classList.remove('active');
+                });
+
+                // Toggle plus/minus icons
+                document.querySelectorAll('.faq-question').forEach(q => {
+                    q.querySelector('span:last-child').textContent = '+';
+                });
+
+                // If this answer wasn't active, open it
+                if (!isActive) {
+                    answer.classList.add('active');
+                    question.querySelector('span:last-child').textContent = '-';
+                }
+            });
+        });
+
+        // Simple animation for shipping options on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const shippingOptions = document.querySelectorAll('.shipping-option');
+            shippingOptions.forEach((option, index) => {
+                setTimeout(() => {
+                    option.style.opacity = '0';
+                    option.style.transform = 'translateY(20px)';
+                    option.style.transition = 'opacity 0.5s, transform 0.5s';
+
+                    setTimeout(() => {
+                        option.style.opacity = '1';
+                        option.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+
+</html>
